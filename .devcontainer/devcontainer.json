@@ -9,7 +9,9 @@
 	},
 	"remoteUser": "node",
 	"updateRemoteUserUID": true,
-	"forwardPorts": [5173],
+	"forwardPorts": [
+		5173
+	],
 	"portsAttributes": {
 		"5173": {
 			"label": "SvelteKit dev server",
@@ -21,7 +23,7 @@
 		"source=${localWorkspaceFolderBasename}-npm-cache,target=/home/node/.npm,type=volume",
 		"source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
 	],
-	"postCreateCommand": "npm install",
+	"postCreateCommand": "sudo chown -R node:node /workspaces/Week-2/node_modules /home/node/.npm && npm install",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -38,5 +40,7 @@
 				}
 			}
 		}
-	}
+	},
+	"postAttachCommand": "bash .devcontainer/start-dev-server.sh",
+	"postStartCommand": "sudo chown -R node:node /workspaces/Week-2/node_modules /home/node/.npm"
 }

@@ -22,6 +22,9 @@ Open this folder in VS Code and choose **Reopen in Container**. The container:
 - keeps container-specific `node_modules` in a Docker volume
 - forwards the Svelte dev server on port `5173`
 - installs dependencies automatically with `npm install` after the container is created
+- fixes ownership on the mounted npm and `node_modules` volumes when the container starts
+- starts the Svelte dev server automatically when you attach to the container
+- prints the local forwarded URL as `http://localhost:5173`
 
 ## Development
 
