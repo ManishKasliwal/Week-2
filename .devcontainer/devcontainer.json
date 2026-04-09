@@ -1,0 +1,42 @@
+{
+	"name": "week-2-sveltekit",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"VARIANT": "22-bookworm"
+		}
+	},
+	"remoteUser": "node",
+	"updateRemoteUserUID": true,
+	"forwardPorts": [5173],
+	"portsAttributes": {
+		"5173": {
+			"label": "SvelteKit dev server",
+			"onAutoForward": "notify"
+		}
+	},
+	"mounts": [
+		"source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+		"source=${localWorkspaceFolderBasename}-npm-cache,target=/home/node/.npm,type=volume",
+		"source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
+	],
+	"postCreateCommand": "npm install",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"svelte.svelte-vscode",
+				"bradlc.vscode-tailwindcss",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"github.vscode-github-actions",
+				"ms-vscode.remote-repositories"
+			],
+			"settings": {
+				"files.associations": {
+					"*.css": "tailwindcss"
+				}
+			}
+		}
+	}
+}
