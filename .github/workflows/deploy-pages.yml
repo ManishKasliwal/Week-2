@@ -42,11 +42,20 @@ jobs:
             echo "BASE_PATH=/$repo" >> "$GITHUB_ENV"
           fi
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Build dev container image
+        run: docker build --file .devcontainer/Dockerfile --build-arg VARIANT=22-bookworm --tag week-2-pages .
 
-      - name: Build site
-        run: npm run build
+      - name: Build site inside Docker
+        run: |
+          docker run --rm \
+            --user root \
+            -e BASE_PATH \
+            -e GITHUB_ACTIONS=true \
+            -e GITHUB_REPOSITORY \
+            -v "${GITHUB_WORKSPACE}:/workspace" \
+            -w /workspace \
+            week-2-pages \
+            bash -lc "npm ci && npm run build"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
